@@ -1,6 +1,6 @@
 const electron = require("electron");
 
-const { app, BrowserWindow, Menu } = electron;
+const { app, BrowserWindow, Menu, ipcMain } = electron;
 
 let mainWindow;
 let addWindow;
@@ -17,7 +17,15 @@ app.on('ready', ()=>{
 function createAddWindow(){
     addWindow = new BrowserWindow({width: 300, height: 200, title: 'Add New Todo'});
     addWindow.loadURL(`file://${__dirname}/add.html`);
+    addWindow.on('close', ()=> addWindow = null);
 }
+
+
+ipcMain.on('todo:add', (event, todo)=>{
+    mainWindow.webContents.send('todo:add', todo);
+    addWindow.close();
+});
+
 
 const menuTemplate = [
     {
@@ -26,6 +34,12 @@ const menuTemplate = [
             {
                  label: 'New Todo',
                  click(){ createAddWindow(); }
+            },
+            {
+                label: 'Clear Todos',
+                click(){
+                    mainWindow.webContents.send('todo:clear');
+                }
             },
             { 
                 label: 'Quit',
@@ -52,6 +66,9 @@ if(process.env.NODE_ENV !== 'production'){
                 click(item, focusedWindow){
                     focusedWindow.toggleDevTools();
                 }
+            },
+            {
+                role: 'reload'
             }
         ]
     });
