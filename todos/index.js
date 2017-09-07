@@ -14,6 +14,20 @@ app.on('ready', ()=>{
 
 const menuTemplate = [
     {
-        label: 'File'
+        label: 'File',
+        submenu: [
+            { label: 'New Todo'},
+            { 
+                label: 'Quit',
+                accelerator: process.platform === 'darwin' ? 'Command+Q': 'Ctrl+Q',
+                click(){
+                    app.quit();
+                }
+             }
+        ]
     }
 ];
+
+if(process.platform === "darwin"){
+    menuTemplate.unshift({});
+}
