@@ -46,8 +46,8 @@ class TasksIndex extends Component {
 
     return (
       <div style={styles.container}>
-        <h2>{`Time Left ${timer.display}`}</h2>
-        <h4>{`Current Task: ${activeTask.task}`}</h4>
+        <h4>{`Time Left ${timer.display}`}</h4>
+        <h6>{`Current Task: ${activeTask.task}`}</h6>
         {this.renderActionButtons()}
       </div>
     );
