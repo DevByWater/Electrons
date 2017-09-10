@@ -218,7 +218,7 @@ class App extends Component {
 
 const styles = {
   container: {
-    height: "88vh"
+    height: "340px"
   }
 };
 
